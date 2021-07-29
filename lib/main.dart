@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import './providers/products_provider.dart';
 import './screens/product_details_screen.dart';
 import './screens/product_overview_screen.dart';
+import './providers/cart.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,8 +13,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (ctx) => ProductsProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (ctx) => ProductsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Cart(),
+        ),
+      ],
+
+      //it is better to use ChangeNotifierProvider replace of ChangeNotifierProvider.value in instantiate a class
+      //if the value constructor
+      //hen you create a new instance of object and you want to provide is used to create or the
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
