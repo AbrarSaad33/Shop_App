@@ -39,6 +39,7 @@ class EditProductsState extends State<EditProducts> {
         _editedProduct = Provider.of<ProductsProvider>(context, listen: false)
             .findByID(productId);
         _initValues = {
+          'id':_editedProduct.id,
           'title': _editedProduct.title,
           'price': _editedProduct.price.toString(),
           'description': _editedProduct.description,
@@ -87,7 +88,7 @@ class EditProductsState extends State<EditProducts> {
     });
 
     if (_editedProduct.id != '') {
-      Provider.of<ProductsProvider>(context, listen: false)
+     await Provider.of<ProductsProvider>(context, listen: false)
           .updateProduct(_editedProduct.id, _editedProduct);
     } else {
       try {
@@ -107,14 +108,14 @@ class EditProductsState extends State<EditProducts> {
                         child: Text('Okay'))
                   ],
                 ));
-      } finally {
-        setState(() {
+      } 
+      
+    }
+    setState(() {
           _isLoading = false;
         });
 
         Navigator.of(context).pop();
-      }
-    }
   }
 
   @override
@@ -264,7 +265,7 @@ class EditProductsState extends State<EditProducts> {
                                   title: _editedProduct.title,
                                   description: _editedProduct.description,
                                   price: _editedProduct.price,
-                                  imageUrl: value!,
+                                  imageUrl: value !,
                                   isFavorite: _editedProduct.isFavorite);
                             },
                           ),

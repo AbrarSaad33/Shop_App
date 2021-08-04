@@ -1,4 +1,7 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class Product with ChangeNotifier {
   final String id;
@@ -14,9 +17,27 @@ class Product with ChangeNotifier {
       required this.price,
       required this.imageUrl,
       this.isFavorite = false});
-      
-  void toggleFavoriteStatus() {
+
+  void _setFavValue(bool newValue) {
+    isFavorite = newValue;
+    notifyListeners();
+  }
+
+  void toggleFavoriteStatus() async {
+    final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
+
+    try {
+      final url = Uri.parse(
+          'https://shopapp-468f2-default-rtdb.firebaseio.com/product/$id.json');
+      final response =
+          await http.patch(url, body: json.encode({'isFavorite': isFavorite}));
+      if (response.statusCode >= 400) {
+        _setFavValue(oldStatus);
+      }
+    } catch (error) {
+      _setFavValue(oldStatus);
+    }
   }
 }

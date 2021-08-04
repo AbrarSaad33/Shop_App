@@ -14,12 +14,21 @@ class ProductItem extends StatelessWidget {
       child: GridTile(
         child: ClipRRect(
           borderRadius: BorderRadius.circular(5),
-          child: GestureDetector(
+          child: product.imageUrl==""? GestureDetector(
             onTap: () {
               Navigator.of(context).pushNamed(ProductDetailsScreen.routeName,
                   arguments: product.id);
             },
-            child: Image.network(
+            child: 
+            Container(child:Image.asset("assets/images/image.jpg"),)
+          )
+          : GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(ProductDetailsScreen.routeName,
+                  arguments: product.id);
+            },
+            child: 
+            Image.network(
               product.imageUrl,
               fit: BoxFit.cover,
             ),

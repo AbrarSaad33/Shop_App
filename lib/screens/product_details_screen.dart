@@ -16,7 +16,13 @@ class ProductDetailsScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
+            loadedProducts.imageUrl==""?
             Container(
+              height: 300,
+              width: double.infinity,
+            child: Image.asset("assets/images/image.jpg"),
+            )
+            :Container(
               height: 300,
               width: double.infinity,
               child: Image.network(
