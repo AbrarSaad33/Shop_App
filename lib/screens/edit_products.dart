@@ -16,7 +16,7 @@ class EditProductsState extends State<EditProducts> {
   final _imageUrlController = TextEditingController();
   final _form = GlobalKey<FormState>();
   var _editedProduct =
-      Product(id: '', title: '', description: '', price: 0, imageUrl: '');
+      Product(id: '', title: '', description: '', price: 0, imageUrl: '',userId: '');
   var _initValues = {
     'title': '',
     'price': '',
@@ -155,6 +155,7 @@ class EditProductsState extends State<EditProducts> {
                             description: _editedProduct.description,
                             price: _editedProduct.price,
                             imageUrl: _editedProduct.imageUrl,
+                            userId: _editedProduct.userId,
                             isFavorite: _editedProduct.isFavorite);
                       },
                     ),
@@ -187,6 +188,7 @@ class EditProductsState extends State<EditProducts> {
                             description: _editedProduct.description,
                             price: double.parse(value!),
                             imageUrl: _editedProduct.imageUrl,
+                             userId: _editedProduct.userId,
                             isFavorite: _editedProduct.isFavorite);
                       },
                     ),
@@ -213,6 +215,7 @@ class EditProductsState extends State<EditProducts> {
                             description: value!,
                             price: _editedProduct.price,
                             imageUrl: _editedProduct.imageUrl,
+                             userId: _editedProduct.userId,
                             isFavorite: _editedProduct.isFavorite);
                       },
                     ),
@@ -266,6 +269,7 @@ class EditProductsState extends State<EditProducts> {
                                   description: _editedProduct.description,
                                   price: _editedProduct.price,
                                   imageUrl: value !,
+                                   userId: _editedProduct.userId,
                                   isFavorite: _editedProduct.isFavorite);
                             },
                           ),

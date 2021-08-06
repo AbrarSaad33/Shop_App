@@ -9,6 +9,7 @@ class Product with ChangeNotifier {
   final String description;
   final double price;
   final String imageUrl;
+  final String userId;
   bool isFavorite;
   Product(
       {required this.id,
@@ -16,6 +17,7 @@ class Product with ChangeNotifier {
       required this.description,
       required this.price,
       required this.imageUrl,
+      required this.userId,
       this.isFavorite = false});
 
   void _setFavValue(bool newValue) {
@@ -23,20 +25,20 @@ class Product with ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleFavoriteStatus() async {
+  void toggleFavoriteStatus(String token, String userId) async {
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
 
+    final url = Uri.parse(
+        'https://shopapp-468f2-default-rtdb.firebaseio.com/userFavorites/$userId/$id.json?auth=$token');
     try {
-      final url = Uri.parse(
-          'https://shopapp-468f2-default-rtdb.firebaseio.com/product/$id.json');
-      final response =
-          await http.patch(url, body: json.encode({'isFavorite': isFavorite}));
+      final response = await http.put(url, body: json.encode(isFavorite));
       if (response.statusCode >= 400) {
         _setFavValue(oldStatus);
       }
     } catch (error) {
+      print('favorite error $error');
       _setFavValue(oldStatus);
     }
   }
