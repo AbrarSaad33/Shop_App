@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/providers/product.dart';
+import 'package:shop_app/helpers/custom_route.dart';
 import 'package:shop_app/providers/products_provider.dart';
 import 'package:shop_app/screens/splash_screen.dart';
 import './providers/auth.dart';
@@ -51,11 +51,10 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProxyProvider<Auth, Orders>(
               create: (ctx) => Orders(),
               update: (ctx, auth, previousOrders) {
-              previousOrders!..authToken= auth.token;
-              previousOrders..userId = auth.userId;
-              return previousOrders;})
-              
-          
+                previousOrders!..authToken = auth.token;
+                previousOrders..userId = auth.userId;
+                return previousOrders;
+              })
         ],
 
         //it is better to use ChangeNotifierProvider replace of ChangeNotifierProvider.value in instantiate a class
@@ -68,7 +67,11 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
                 primarySwatch: Colors.purple,
                 accentColor: Colors.deepOrange,
-                fontFamily: 'Lato'),
+                fontFamily: 'Lato',
+                pageTransitionsTheme: PageTransitionsTheme(builders: {
+                  TargetPlatform.android: CustomPageTransitionBuilder(),
+                  TargetPlatform.iOS: CustomPageTransitionBuilder(),
+                })),
             home: auth.isAuth
                 ? ProductOverview()
                 : FutureBuilder(
