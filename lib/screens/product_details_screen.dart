@@ -8,28 +8,30 @@ class ProductDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productId = ModalRoute.of(context)?.settings.arguments as String;
-    final loadedProducts=Provider.of<ProductsProvider>(context).findByID(productId);
+    final loadedProducts =
+        Provider.of<ProductsProvider>(context).findByID(productId);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(loadedProducts.title),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            loadedProducts.imageUrl==""?
-            Container(
-              height: 300,
-              width: double.infinity,
-            child: Image.asset("assets/images/image.jpg"),
-            )
-            :Container(
-              height: 300,
-              width: double.infinity,
-              child: Image.network(
-                loadedProducts.imageUrl,
-                fit: BoxFit.cover,
+      // appBar: AppBar(
+      //   title: Text(loadedProducts.title),
+      // ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 300,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text(loadedProducts.title),
+              background: Hero(
+                tag: loadedProducts.id,
+                child: Image.network(
+                  loadedProducts.imageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
+          ),
+          SliverList(
+              delegate: SliverChildListDelegate([
             SizedBox(height: 10),
             Text(
               '\$${loadedProducts.price}',
@@ -37,6 +39,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 color: Colors.grey,
                 fontSize: 20,
               ),
+              textAlign: TextAlign.center,
             ),
             SizedBox(
               height: 10,
@@ -49,9 +52,10 @@ class ProductDetailsScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 softWrap: true,
               ),
-            )
-          ],
-        ),
+            ),
+            SizedBox(height: 800,)
+          ],),)
+        ],
       ),
     );
   }
